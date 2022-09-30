@@ -1,11 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { CATEGORIES } from "./data/dummy-data";
 
 export default function App() {
+  let List = () => {
+    for (let i = 0; i < CATEGORIES.length; i++) {
+      return (
+        <View>
+          <Text>{CATEGORIES[i].title}</Text>
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
+      <View>
+        <Text>{List()}</Text>
+      </View>
     </View>
   );
 }
@@ -13,8 +26,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
