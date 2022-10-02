@@ -1,6 +1,10 @@
 import { View, Pressable, Text, StyleSheet, Platform } from "react-native";
 
+import shadowItems from "./Styles/shadow";
+
 function CategoryGridTile({ title, color, onPress }) {
+  // const navigation = useNavigation(); // for nested components without Stack.Screen active
+
   return (
     <View and style={styles.gridItem}>
       <Pressable
@@ -24,11 +28,7 @@ const styles = StyleSheet.create({
     margin: 16,
     height: 150,
     width: 150,
-    elevation: 4,
-    shadowColor: "black",
-    shadowOffset: { width: -2, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
+    ...shadowItems,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   button: {
