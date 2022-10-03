@@ -8,8 +8,6 @@ function CategoriesScreen({ navigation }) {
     function pressHandler() {
       navigation.navigate("MealsOverview", {
         categoryId: item.id,
-        titleId: item.title,
-        backgroundColorId: item.color,
       });
     }
 

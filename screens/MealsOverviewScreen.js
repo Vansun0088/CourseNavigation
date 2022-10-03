@@ -30,7 +30,15 @@ function MealsOverviewScreen({ route, navigation }) {
       affordability: item.affordability,
       complexity: item.complexity,
     };
-    return <MealItem {...mealItemProps} />;
+    function pressMealHandler() {
+      navigation.navigate("MealsInside", {
+        ingredients: item.ingredients,
+        title: item.title,
+        steps: item.steps,
+        imageUrl: item.imageUrl,
+      });
+    }
+    return <MealItem {...mealItemProps} onPress={pressMealHandler} />;
   }
 
   return (

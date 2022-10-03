@@ -2,10 +2,11 @@ import { View, Text, Image, Pressable, StyleSheet, Platform } from "react-native
 
 import shadowItems from "./Styles/shadow";
 
-function MealItem({ title, backgroundColorItem, imageUrl, duration, complexity, affordability }) {
+function MealItem({ title, onPress, imageUrl, duration, complexity, affordability }) {
   return (
     <View style={styles.mealItem}>
       <Pressable
+        onPress={onPress}
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => pressed && styles.buttonPressed}
       >
