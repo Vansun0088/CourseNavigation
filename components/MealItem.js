@@ -1,12 +1,24 @@
 import { View, Text, Image, Pressable, StyleSheet, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import shadowItems from "./Styles/shadow";
+import Specifics from "./Styles/Specifics";
 
-function MealItem({ title, onPress, imageUrl, duration, complexity, affordability }) {
+function MealItem({ id, title, onPress, imageUrl, duration, complexity, affordability }) {
+  const navigation = useNavigation();
+
+  function selectMealItemHandler() {
+    navigation.navigate("MealDetail", {
+      mealId: id,
+      title: title,
+    });
+  }
+
   return (
     <View style={styles.mealItem}>
       <Pressable
-        onPress={onPress}
+        //  onPress={onPress}
+        onPress={selectMealItemHandler}
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => pressed && styles.buttonPressed}
       >
@@ -15,11 +27,7 @@ function MealItem({ title, onPress, imageUrl, duration, complexity, affordabilit
             <Image style={styles.image} source={{ uri: imageUrl }} />
             <Text style={styles.title}>{title}</Text>
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailsItem}>{duration}m</Text>
-            <Text style={styles.detailsItem}>{complexity.toUpperCase()}</Text>
-            <Text style={styles.detailsItem}>{affordability.toUpperCase()}</Text>
-          </View>
+          <Specifics duration={duration} complexity={complexity} affordability={affordability} />
         </View>
       </Pressable>
     </View>
@@ -32,7 +40,6 @@ const styles = StyleSheet.create({
   mealItem: {
     margin: 16,
     borderRadius: 8,
-    overflow: "hidden",
     backgroundColor: "white",
     ...shadowItems,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
@@ -52,15 +59,5 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 200,
-  },
-  details: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  detailsItem: {
-    marginHorizontal: 4,
-    fontSize: 12,
   },
 });

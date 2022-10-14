@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     width: 150,
     ...shadowItems,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+    borderRadius: 8,
   },
   button: {
     flex: 1,

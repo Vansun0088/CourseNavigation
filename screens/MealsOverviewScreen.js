@@ -29,16 +29,17 @@ function MealsOverviewScreen({ route, navigation }) {
       duration: item.duration,
       affordability: item.affordability,
       complexity: item.complexity,
+      id: item.id,
     };
-    function pressMealHandler() {
+    /*function pressMealHandler() {
       navigation.navigate("MealsInside", {
         ingredients: item.ingredients,
         title: item.title,
         steps: item.steps,
         imageUrl: item.imageUrl,
       });
-    }
-    return <MealItem {...mealItemProps} onPress={pressMealHandler} />;
+    }*/
+    return <MealItem {...mealItemProps} /*onPress={pressMealHandler}*/ />;
   }
 
   return (

@@ -6,7 +6,7 @@ function Meals({ route }) {
   const imageUrl = route.params.imageUrl;
 
   const ingredientsList = ingredients.map((item, index) => (
-    <View style={styles.ingredientsContainer} key={index}>
+    <View style={styles.numberListContainer} key={index}>
       <View style={styles.index}>
         <Text style={styles.ingredientsText}>{index + 1}</Text>
       </View>
@@ -16,7 +16,8 @@ function Meals({ route }) {
     </View>
   ));
   const stepsList = steps.map((item, index) => (
-    <View key={index}>
+    <View style={styles.numberListContainer} key={index}>
+      <Text style={styles.stepsText}>{index + 1}.</Text>
       <Text style={styles.stepsText}>{item}</Text>
     </View>
   ));
@@ -45,7 +46,7 @@ function Meals({ route }) {
 export default Meals;
 
 const styles = StyleSheet.create({
-  ingredientsContainer: {
+  numberListContainer: {
     flexDirection: "row",
     marginVertical: 5,
   },
