@@ -17,7 +17,11 @@ function MealsDetailsScreen({ route, navigation }) {
 
   function headerButtonPressHandler() {
     //  setHeaderImage(require("../assets/images/goldStar.png"));
-    setImageColor("yellow");
+    if (imageColor === "white") {
+      setImageColor("yellow");
+    } else {
+      setImageColor("white");
+    }
   }
 
   useLayoutEffect(() => {
