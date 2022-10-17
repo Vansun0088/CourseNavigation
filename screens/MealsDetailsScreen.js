@@ -1,5 +1,6 @@
-import { useLayoutEffect, useState } from "react";
-import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+import { AsyncStorage } from "react-native";
 
 import IconButton from "../components/IconButton";
 import List from "../components/MealDetail/List";
@@ -15,16 +16,42 @@ function MealsDetailsScreen({ route, navigation }) {
 
   const selectedMeal = MEALS.find((meal) => meal.id === id);
 
-  function headerButtonPressHandler() {
-    //  setHeaderImage(require("../assets/images/goldStar.png"));
-    if (imageColor === "white") {
+  headerButtonPressHandler = async () => {
+    if (selectedMeal.isFavourite === "true") {
+      selectedMeal.isFavourite = "false";
+      setImageColor("white");
+    } else {
+      selectedMeal.isFavourite = "true";
+      setImageColor("yellow");
+    }
+    try {
+      await AsyncStorage.setItem("id", selectedMeal.isFavourite);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("id");
+      if (value !== "true") {
+        selectedMeal.isFavourite === "true";
+        // value previously stored
+      } else if (value !== "false") {
+        selectedMeal.isFavourite === "false";
+      }
+    } catch (e) {
+      console.log("error!!");
+      // error reading value
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (selectedMeal.isFavourite === "true") {
       setImageColor("yellow");
     } else {
       setImageColor("white");
     }
-  }
-
-  useLayoutEffect(() => {
+    getData();
     navigation.setOptions({
       title: selectedMeal.title,
       headerRight: () => {
