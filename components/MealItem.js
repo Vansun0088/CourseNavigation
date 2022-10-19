@@ -1,11 +1,21 @@
 import { View, Text, Image, Pressable, StyleSheet, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
 import shadowItems from "./Styles/shadow";
 import Specifics from "./Styles/Specifics";
 
-function MealItem({ id, title, onPress, imageUrl, duration, complexity, affordability }) {
+function MealItem({ id, title, imageUrl, duration, complexity, affordability, isFavorite }) {
+  const [favourite, setFavorite] = useState(styles.mealItem);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (isFavorite === "true") {
+      setFavorite([styles.mealItem, styles.mealItemFavorite]);
+    } else {
+      setFavorite(styles.mealItem);
+    }
+  }, [isFavorite]);
 
   function selectMealItemHandler() {
     navigation.navigate("MealDetail", {
@@ -15,7 +25,7 @@ function MealItem({ id, title, onPress, imageUrl, duration, complexity, affordab
   }
 
   return (
-    <View style={styles.mealItem}>
+    <View style={favourite}>
       <Pressable
         //  onPress={onPress}
         onPress={selectMealItemHandler}
@@ -43,6 +53,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     ...shadowItems,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  mealItemFavorite: {
+    backgroundColor: "yellow",
+    borderWidth: 5,
+    borderColor: "#e0b414",
   },
   buttonPressed: {
     opacity: 0.5,

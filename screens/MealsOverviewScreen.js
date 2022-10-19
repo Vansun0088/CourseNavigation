@@ -30,6 +30,7 @@ function MealsOverviewScreen({ route, navigation }) {
       affordability: item.affordability,
       complexity: item.complexity,
       id: item.id,
+      isFavorite: item.isFavorite,
     };
     /*function pressMealHandler() {
       navigation.navigate("MealsInside", {

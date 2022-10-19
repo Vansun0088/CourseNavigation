@@ -1,15 +1,25 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import CategoriesScreen from "./screens/CategoriesScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
-import Meals from "./screens/Meals";
 import MealsDetailsScreen from "./screens/MealsDetailsScreen";
 import Colors from "./constants/Colors";
+import FavoritesScreen from "./screens/FavoritesScreen";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function DrawerNavigator() {
+  return (
+    <DrawerNavigator>
+      <Drawer.Screen name="Categories" component={CategoriesScreen} />
+      <Drawer.Screen name="Favorites" component={FavoritesScreen} />
+    </DrawerNavigator>
+  );
+}
 
 export default function App() {
   return (
@@ -24,10 +34,10 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="MealsCategories"
-            component={CategoriesScreen}
+            name="DrawerScreen"
+            component={DrawerNavigator}
             options={{
-              title: "Meals Categories",
+              title: "All Categories",
             }}
           />
           <Stack.Screen
@@ -44,8 +54,8 @@ export default function App() {
             //}}
           />
           <Stack.Screen
-            name="MealsInside"
-            component={Meals}
+            name="MealDetail"
+            component={MealsDetailsScreen}
             options={({ route }) => {
               const MealsName = route.params.title;
               return {
@@ -53,13 +63,8 @@ export default function App() {
               };
             }}
           />
-          <Stack.Screen name="MealDetail" component={MealsDetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});

@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+import { useLayoutEffect, useState } from "react";
+import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import { AsyncStorage } from "react-native";
 
 import IconButton from "../components/IconButton";
@@ -17,27 +17,28 @@ function MealsDetailsScreen({ route, navigation }) {
   const selectedMeal = MEALS.find((meal) => meal.id === id);
 
   headerButtonPressHandler = async () => {
-    if (selectedMeal.isFavourite === "true") {
-      selectedMeal.isFavourite = "false";
+    if (selectedMeal.isFavorite === "true") {
+      selectedMeal.isFavorite = "false";
       setImageColor("white");
     } else {
-      selectedMeal.isFavourite = "true";
+      selectedMeal.isFavorite = "true";
       setImageColor("yellow");
     }
     try {
-      await AsyncStorage.setItem("id", selectedMeal.isFavourite);
+      await AsyncStorage.setItem("id", selectedMeal.isFavorite);
     } catch (err) {
       console.log(err);
     }
   };
+
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem("id");
       if (value !== "true") {
-        selectedMeal.isFavourite === "true";
+        selectedMeal.isFavorite === "true";
         // value previously stored
       } else if (value !== "false") {
-        selectedMeal.isFavourite === "false";
+        selectedMeal.isFavorite === "false";
       }
     } catch (e) {
       console.log("error!!");
@@ -46,14 +47,13 @@ function MealsDetailsScreen({ route, navigation }) {
   };
 
   useLayoutEffect(() => {
-    if (selectedMeal.isFavourite === "true") {
+    if (selectedMeal.isFavorite === "true") {
       setImageColor("yellow");
     } else {
       setImageColor("white");
     }
     getData();
     navigation.setOptions({
-      title: selectedMeal.title,
       headerRight: () => {
         /* return (
           <Pressable style={styles.outerHeaderImageContainer} onPress={headerButtonPressHandler}>
