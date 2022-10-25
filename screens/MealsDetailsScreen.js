@@ -1,71 +1,49 @@
-import { useLayoutEffect, useState } from "react";
-import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
-import { AsyncStorage } from "react-native";
+import { useContext, useLayoutEffect } from "react";
+import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+//import { useDispatch, useSelector } from "react-redux";
 
 import IconButton from "../components/IconButton";
 import List from "../components/MealDetail/List";
 import Subtitle from "../components/MealDetail/Subtitle";
 import Specifics from "../components/Styles/Specifics";
 import { MEALS } from "../data/dummy-data";
+//import { addFavorite, removeFavorite } from "../store/redux/favorites";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 function MealsDetailsScreen({ route, navigation }) {
-  // const [headerImage, setHeaderImage] = useState(require("../assets/images/whiteStar.png"));
-  const [imageColor, setImageColor] = useState("white");
+  const favouriteMealsCtx = useContext(FavoritesContext);
+  //const favoriteMealIds = useSelector((state) => state.favoriteMeals.ids);
+  //const dispatch = useDispatch();
 
   const id = route.params.mealId;
-
   const selectedMeal = MEALS.find((meal) => meal.id === id);
 
-  headerButtonPressHandler = async () => {
-    if (selectedMeal.isFavorite === "true") {
-      selectedMeal.isFavorite = "false";
-      setImageColor("white");
-    } else {
-      selectedMeal.isFavorite = "true";
-      setImageColor("yellow");
-    }
-    try {
-      await AsyncStorage.setItem("id", selectedMeal.isFavorite);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const mealIsFavorite = favouriteMealsCtx.ids.includes(id);
+  //const mealIsFavorite = favoriteMealIds.ids.includes(id);
 
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("id");
-      if (value !== "true") {
-        selectedMeal.isFavorite === "true";
-        // value previously stored
-      } else if (value !== "false") {
-        selectedMeal.isFavorite === "false";
-      }
-    } catch (e) {
-      console.log("error!!");
-      // error reading value
+  function changeFavoriteStatusHandler() {
+    if (mealIsFavorite) {
+      favouriteMealsCtx.removeFavorite(id);
+      //dispatch(removeFavorite({ id: id }));
+    } else {
+      favouriteMealsCtx.addFavorite(id);
+      //dispatch(addFavorite({ id: id }));
     }
-  };
+  }
 
   useLayoutEffect(() => {
-    if (selectedMeal.isFavorite === "true") {
-      setImageColor("yellow");
-    } else {
-      setImageColor("white");
-    }
-    getData();
     navigation.setOptions({
       headerRight: () => {
-        /* return (
-          <Pressable style={styles.outerHeaderImageContainer} onPress={headerButtonPressHandler}>
-            <View style={styles.headerImageContainer}>
-              <Image style={styles.headerImage} source={headerImage} />
-            </View>
-          </Pressable>
-        );*/
-        return <IconButton icon="star" color={imageColor} onPress={headerButtonPressHandler} />;
+        return (
+          <IconButton
+            icon={mealIsFavorite ? "star" : "star-outline"}
+            color="white"
+            onPress={changeFavoriteStatusHandler}
+          />
+        );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavoriteStatusHandler]);
 
   return (
     <ScrollView style={styles.rootContainer}>
